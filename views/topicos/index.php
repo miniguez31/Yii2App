@@ -1,3 +1,24 @@
+<style>
+.btn-success {
+  font-family: Raleway-SemiBold;
+  font-size: 60px;
+  color: rgba(103, 192, 103, 0.75);
+  letter-spacing: 1px;
+  line-height: 15px;
+  border: 2px solid rgba(103, 192, 103, 0.75);
+  border-radius: 80px;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+
+.btn-success:hover {
+  color: #FFF;
+  background: rgb(103, 192, 103, 0.75);
+  border: 2px solid rgb(103, 192, 103, 0.75);
+}
+</style>
+
+
 <?php
 
 use yii\helpers\Html;
@@ -15,9 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Topicos'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div align="right">
+        <?= Html::a("", ['create'], ['class' => 'btn btn-success btn-lg glyphicon glyphicon-plus']) ?>
+</div>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

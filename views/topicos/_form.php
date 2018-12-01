@@ -12,9 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true, 'style'=>'width:50%;']) ?>
 
-    <?= $form->field($model, 'contenido')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'contenido')->textarea(['rows'=>4, 'style'=>'width:50%;'])  ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
