@@ -66,9 +66,11 @@ class TopicosController extends Controller
     {
         $model = new Topicos();
 
-        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t("app", "Topic created"));
+
+            return $this->redirect('index');
+            //return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -88,7 +90,9 @@ class TopicosController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', Yii::t("app", "Topic updated"));
+            return $this->redirect('index');
+            //return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -106,7 +110,7 @@ class TopicosController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('success', Yii::t("app", "Topic deleted"));
         return $this->redirect(['index']);
     }
 

@@ -49,7 +49,37 @@ $this->params['breadcrumbs'][] = $this->title;
             'titulo',
             'contenido',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{actualizar} {eliminar}',
+                'buttons' => [
+                    'actualizar' => function ($url, $model, $key) {
+                            return Html::a(
+                                '',
+                                ['topicos/update', 'id' => $model->id],
+                                [
+                                    'title'=>'Actualizar',
+                                    'class' =>'glyphicon glyphicon-pencil',
+                                    'data-method' => 'post',
+                                    'data-toggle' => 'tooltip'
+                                ]
+                            );                        
+                    },
+                    'eliminar' => function ($url, $model, $key) {                        
+                        return Html::a(
+                            '',
+                            ['topicos/delete', 'id' => $model->id],
+                            [
+                                'title'=>'Eliminar',
+                                'class' =>'glyphicon glyphicon-trash',
+                                'data-toggle' => 'tooltip',
+                                'data-method' => 'post',
+                                'data-confirm' =>'¿desea eliminar el tópico? ',
+                            ]
+                        );                    
+                    },
+                ]
+            ],  
         ],
     ]); ?>
 </div>

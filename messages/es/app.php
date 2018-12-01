@@ -7,4 +7,7 @@ return [
     'Save' => 'Guardar',
     'Update Topicos' => 'Actualizar tema',
     'Update' => 'Actualizar',
+    'Topic created' => 'Tema creado!!!',
+    'Topic deleted' => 'Tema eliminado',
+    'Topic updated' => 'Tema actualizado'
 ];
