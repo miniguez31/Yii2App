@@ -10,6 +10,8 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
+use app\models\Usuarios;
+
 class SiteController extends Controller
 {
     /**
@@ -124,5 +126,19 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionSignin()
+    {
+        $model = new Usuarios();
+        if ($model->load(Yii::$app->request->post())) {
+            $model->save();
+            Yii::$app->session->setFlash('success', Yii::t("app", "User created"));
+            return $this->redirect('login');
+        }
+
+        return $this->render('signin', [
+            'model' => $model,
+        ]);
     }
 }
