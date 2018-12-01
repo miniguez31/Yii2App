@@ -9,5 +9,7 @@ return [
     'Update' => 'Actualizar',
     'Topic created' => 'Tema creado!!!',
     'Topic deleted' => 'Tema eliminado',
-    'Topic updated' => 'Tema actualizado'
+    'Topic updated' => 'Tema actualizado',
+    'User created' => 'Usuarios creado',
+    'RePassword' => 'Repetir password'
 ];

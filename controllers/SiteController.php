@@ -74,7 +74,11 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {            
-            return $this->goHome();
+            //return $this->goHome();
+            $session = Yii::$app->session;
+            $session->set('idUsuario', Yii::$app->user->id);            
+
+            $this->redirect(['topicos/index']);
         }
 
         $model = new LoginForm();
@@ -132,9 +136,13 @@ class SiteController extends Controller
     {
         $model = new Usuarios();
         if ($model->load(Yii::$app->request->post())) {
-            $model->save();
-            Yii::$app->session->setFlash('success', Yii::t("app", "User created"));
-            return $this->redirect('login');
+            $model->password = $model->cifrarPassword();
+            $model->repassword = $model->password;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t("app", "User created"));
+                return $this->redirect('login');
+            }                        
+            //var_dump($model->getErrors()); die;
         }
 
         return $this->render('signin', [

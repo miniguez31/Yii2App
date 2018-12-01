@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{actualizar} {eliminar}',
                 'buttons' => [
                     'actualizar' => function ($url, $model, $key) {
+                        if (Yii::$app->session['idUsuario'] == $model->idUsuario) {
                             return Html::a(
                                 '',
                                 ['topicos/update', 'id' => $model->id],
@@ -63,9 +64,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'data-method' => 'post',
                                     'data-toggle' => 'tooltip'
                                 ]
-                            );                        
+                            ); 
+                        }                       
                     },
-                    'eliminar' => function ($url, $model, $key) {                        
+                    'eliminar' => function ($url, $model, $key) { 
+                        if (Yii::$app->session['idUsuario'] == $model->idUsuario) {                       
                         return Html::a(
                             '',
                             ['topicos/delete', 'id' => $model->id],
@@ -77,6 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'data-confirm' =>'¿desea eliminar el tópico? ',
                             ]
                         );                    
+                    }
                     },
                 ]
             ],  

@@ -8,6 +8,7 @@ use app\models\TopicosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * TopicosController implements the CRUD actions for Topicos model.
@@ -26,6 +27,16 @@ class TopicosController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class'=> AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['create', 'update', 'delete', 'index'],
+                        'allow' => true,//$usuario->tipo == "admin"
+                        'roles' => ['@']
+                    ],                    
+                ]
+            ]
         ];
     }
 
@@ -66,10 +77,16 @@ class TopicosController extends Controller
     {
         $model = new Topicos();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t("app", "Topic created"));
+        if ($model->load(Yii::$app->request->post()) ) {
 
-            return $this->redirect('index');
+            $model->idUsuario = Yii::$app->session['idUsuario'];
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t("app", "Topic created"));
+                return $this->redirect('index');
+            } else {
+                var_dump($model->getErrors()); die;
+                Yii::$app->session->setFlash('error', Yii::t("app", "Topic cannot be created"));
+            }            
             //return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -88,6 +105,11 @@ class TopicosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        
+        if (Yii::$app->session['idUsuario'] != $model->idUsuario) {
+            Yii::$app->session->setFlash('error', Yii::t("app", "Topic cannot be updated"));
+            return $this->redirect('index');
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', Yii::t("app", "Topic updated"));
@@ -109,8 +131,14 @@ class TopicosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        Yii::$app->session->setFlash('success', Yii::t("app", "Topic deleted"));
+        $model = $this->findModel($id);
+        if (Yii::$app->session['idUsuario'] == $model->idUsuario) {
+            $model->delete();
+            Yii::$app->session->setFlash('success', Yii::t("app", "Topic deleted"));    
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t("app", "Topic cannot be deleted"));
+        }
+        
         return $this->redirect(['index']);
     }
 

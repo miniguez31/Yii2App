@@ -12,9 +12,12 @@ use Yii;
  * @property string $email
  * @property string $username
  * @property string $password
+ * 
+ * @property Topicos[] $topicos
  */
 class Usuarios extends \yii\db\ActiveRecord
 {
+    public $repassword;
     /**
      * {@inheritdoc}
      */
@@ -33,8 +36,14 @@ class Usuarios extends \yii\db\ActiveRecord
             [['nombre', 'email'], 'string', 'max' => 85],
             [['username'], 'string', 'max' => 45],
             ['username', 'unique'],
-            [['password'], 'string', 'max' => 75],
+            [['password', 'repassword'], 'string', 'max' => 75],
             ['email', 'email'],
+            [
+                'repassword', 
+                'compare', 
+                'compareAttribute'=>'password', 
+                'message'=> Yii::t('app', 'El password no coincide') 
+            ],
         ];
     }
 
@@ -49,6 +58,27 @@ class Usuarios extends \yii\db\ActiveRecord
             'email' => Yii::t('app', 'Email'),
             'username' => Yii::t('app', 'Username'),
             'password' => Yii::t('app', 'Password'),
+            'repassword' => Yii::t('app', 'RePassword'),
         ];
+    }
+
+    public function cifrarPassword()
+    {
+        $passwordHash = password_hash(
+            $this->password,
+            PASSWORD_BCRYPT,
+            array(
+               'cost' => 10
+            )
+        );
+        return $passwordHash;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTopicos()
+    {
+        return $this->hasMany(Topicos::className(), ['idUsuario' => 'id']);
     }
 }
