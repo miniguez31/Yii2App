@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <div align="right">
-        <?= Html::a("", ['create'], ['class' => 'btn btn-success btn-lg glyphicon glyphicon-plus']) ?>
+        <?= Html::a("", ['create'], ['class' => 'btn btn-success btn-lg glyphicon glyphicon-plus']) ?>        
 </div>
 
     <?= GridView::widget([
