@@ -47,6 +47,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             
             'titulo',
+            [
+                'label'=>'titulo',
+                'value'=> function($data) {
+                    return "<h5>".Html::encode($data->titulo)."</h5>";                    
+                },
+                'format' => 'raw'
+            ],
             'contenido',
 
             [
