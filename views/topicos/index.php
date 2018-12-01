@@ -44,13 +44,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            
-            'titulo',
+            ['class' => 'yii\grid\SerialColumn'],            
+            //'titulo',
             [
                 'label'=>'titulo',
                 'value'=> function($data) {
-                    return "<h5>".Html::encode($data->titulo)."</h5>";                    
+                    return Html::a(Html::encode($data->titulo), ['comentarios/index', 'idTopico'=> $data->id]);                   
                 },
                 'format' => 'raw'
             ],
