@@ -1,7 +1,7 @@
 <?php
 
 namespace app\models;
-
+use yii\helpers\ArrayHelper;
 use Yii;
 
 /**
@@ -13,7 +13,7 @@ use Yii;
  * @property int $idUsuario
  */
 class Topicos extends \yii\db\ActiveRecord
-{
+{    
     /**
      * {@inheritdoc}
      */
@@ -54,5 +54,28 @@ class Topicos extends \yii\db\ActiveRecord
     public function getUsuario()
     {
         return $this->hasOne(Usuarios::className(), ['id' => 'idUsuario']);
+    }
+
+    
+    static function getTitulos()
+    {
+        $topicos = Topicos::find()->all();      
+        return ArrayHelper::Toarray(
+            $topicos,
+            [
+                'app\models\Topicos'=>[
+                    'titulo'
+                ]
+            ]
+        );
+    }
+
+    static function searchTitulo($titulo) 
+    {
+        $query = Topicos::find()
+            ->select('id')
+            ->from('Topicos')            
+            ->where(['like', 'titulo', '%'.$titulo.'%', false])->one();
+        return $query;
     }
 }

@@ -34,10 +34,37 @@ class TopicosController extends Controller
                         'actions' => ['create', 'update', 'delete', 'index'],
                         'allow' => true,//$usuario->tipo == "admin"
                         'roles' => ['@']
-                    ],                    
+                    ],
+                    [
+                        'actions' => ['list'],
+                        'allow' => true,                        
+                    ]                    
                 ]
             ]
         ];
+    }
+    /**
+     * Vista de lista de temas
+     */
+    public function actionList() 
+    {
+        $arrData = Topicos::getTitulos();
+        $model = new Topicos();
+
+        if ($model->load(Yii::$app->request->post())) {
+            $result = Topicos::searchTitulo($model->titulo);
+
+            if ($result) {
+                return $this->redirect(['comentarios/index', 'idTopico'=>$result->id]);
+            }
+            
+            Yii::$app->session->setFlash('info', Yii::t("app", "Topic not found"));
+        }
+
+        return $this->render('list', [
+            'arrData' => $arrData,
+            'model' => $model
+        ]);
     }
 
     /**

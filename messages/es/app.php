@@ -11,5 +11,6 @@ return [
     'Topic deleted' => 'Tema eliminado',
     'Topic updated' => 'Tema actualizado',
     'User created' => 'Usuarios creado',
-    'RePassword' => 'Repetir password'
+    'RePassword' => 'Repetir password',
+    'Search' => 'Buscar'
 ];
